@@ -1,0 +1,25 @@
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+colorscheme harlequin
+
+" Map semi-colon to colon
+nmap ; :
+" Map to allow double press of semi-colon to take over the former duties of semi-colon
+noremap ;; ;
+
+" Map jj to escape
+imap jj <Esc>
+
+" Use leader+r to run the current open file
+augroup RunCurrentFile
+    autocmd!
+    autocmd FileType python nnoremap <leader>r :!python3 %<CR>
+    autocmd FileType sh nnoremap <leader>r :!bash %<CR>
+    autocmd FileType c nnoremap <leader>r :!gcc % -o %< && ./%<<CR>
+augroup END
+
+" Set Python-specific indentation to use 2 spaces instead of tabs
+autocmd FileType python setlocal expandtab shiftwidth=2 softtabstop=2
+
