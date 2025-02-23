@@ -11,6 +11,7 @@ RUN apt-get update && \
     apt-get -y install locales
 
 RUN locale-gen en_US.UTF-8
+ENV TZ=America/New_York
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8     
@@ -26,7 +27,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     man build-essential curl gdb gdbserver wget vim unzip git \
     strace ltrace binutils file less netcat-openbsd \
-    ripgrep
+    ripgrep xxd 
 
 # Install pwntools and pwndbg
 # RJW: We have to use the --break-system-package flag or the install will error out.
@@ -78,6 +79,11 @@ RUN python3 -m pip install --upgrade --break-system-packages tqdm
 RUN apt-get update && \
     apt-get -y install openvpn && \
     apt-get clean
+
+# Install Zoxide 
+RUN curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+RUN echo 'eval "$(zoxide init bash)"' >> /root/.bashrc
 
 # Setup VIM
 #  - Install Pathogen 
